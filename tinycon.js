@@ -16,8 +16,10 @@
 	var canvas = null;
 	var options = {};
 	var defaults = {
-		width: 7,
-		height: 9,
+		width: 10,
+		height: 10,
+		topPosition: 0,
+		leftPosition: 0,
 		font: '10px arial',
 		colour: '#ffffff',
 		background: '#F03D25',
@@ -159,9 +161,10 @@
 
 		// bubble needs to be larger for double digits
 		var len = (label + '').length-1;
+		var x = options.leftPosition;
+		var y = options.topPosition;
 		var width = options.width + (6*len);
-		var w = 16-width;
-		var h = 16-options.height;
+		var height = options.height;
 
 		// webkit seems to render fonts lighter than firefox
 		context.font = (browser.webkit ? 'bold ' : '') + options.font;
@@ -170,34 +173,22 @@
 		context.lineWidth = 1;
 
 		// bubble
-		context.fillRect(w,h,width-1,options.height);
-
-		// rounded left
-		context.beginPath();
-		context.moveTo(w-0.5,h+1);
-		context.lineTo(w-0.5,15);
-		context.stroke();
-
-		// rounded right
-		context.beginPath();
-		context.moveTo(15.5,h+1);
-		context.lineTo(15.5,15);
-		context.stroke();
-
+		context.fillRect(x,y,width,height);
+		
 		// bottom shadow
 		context.beginPath();
-		context.strokeStyle = "rgba(0,0,0,0.3)";
-		context.moveTo(w,16);
-		context.lineTo(15,16);
+		context.strokeStyle = options.background;
+		context.moveTo(x,height);
+		context.lineTo(width,height);
 		context.stroke();
 
 		// label
 		context.fillStyle = options.colour;
-		context.textAlign = "right";
-		context.textBaseline = "top";
+		context.textAlign = "center";
+		context.textBaseline = "middle";
 
 		// unfortunately webkit/mozilla are a pixel different in text positioning
-		context.fillText(label, 15, browser.mozilla ? 7 : 6);
+		context.fillText(label, x+(width/2), browser.mozilla ? y+(height/2)+1 : y+(height/2));
 	};
 
 	var refreshFavicon = function(){
@@ -211,7 +202,8 @@
 		var metricPrefixes = [
 			['G', 1000000000],
 			['M',    1000000],
-			['k',       1000]
+			['k',       1000],
+			['C',        100]
 		];
 
 		for(var i = 0; i < metricPrefixes.length; ++i) {

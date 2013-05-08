@@ -1,3 +1,25 @@
+# Differences in this version of Tinycon
+
+## New options
+
+* Top/Left position: allows you to have control over where the bubble appears
+
+```javascript
+Tinycon.setOptions({
+	topPosition: 0,
+	leftPosition: 0
+});
+```
+
+This version also has following tweaks:
+
+* Made the bottom shadow stroke to be same as background color to help with visual centering
+* Removed left and right extra strokes, not sure of the need for it?
+* Changed how the label is positioned
+* Added abbreviation for 100
+* Recompiled minified version using http://closure-compiler.appspot.com/home
+
+
 # Tinycon
 
 A small library for manipulating the favicon, in particular adding alert bubbles and changing images. Tinycon gracefully falls back to a number in title approach for browers that don't support canvas or dynamic favicons.
